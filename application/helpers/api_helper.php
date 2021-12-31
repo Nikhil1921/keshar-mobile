@@ -4,7 +4,20 @@ if ( ! function_exists('post'))
     function post()
     {
         $CI =& get_instance();
-        if ($CI->input->server('REQUEST_METHOD') == "POST") {
+        if ($CI->input->server('REQUEST_METHOD') === "POST") {
+            return TRUE;
+        }else{
+            die($CI->load->view('error_404', [], true));
+        }
+    }
+}
+
+if ( ! function_exists('delete'))
+{
+    function delete()
+    {
+        $CI =& get_instance();
+        if ($CI->input->server('REQUEST_METHOD') === "DELETE") {
             return TRUE;
         }else{
             die($CI->load->view('error_404', [], true));
@@ -17,7 +30,7 @@ if ( ! function_exists('get'))
     function get()
     {
         $CI =& get_instance();
-        if ($CI->input->server('REQUEST_METHOD') == "GET") {
+        if ($CI->input->server('REQUEST_METHOD') === "GET") {
             return TRUE;
         }else{
             die($CI->load->view('error_404', [], true));

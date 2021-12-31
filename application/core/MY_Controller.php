@@ -19,12 +19,4 @@ class MY_Controller extends CI_Controller
 
 		return $this->template->load('template', 'error_404', $data);
 	}
-
-	public function forbidden()
-	{
-		$data['title'] = 'forbidden';
-        $data['name'] = 'forbidden';
-
-		return $this->template->load('template', 'forbidden', $data);
-	}
 }

@@ -74,45 +74,50 @@ class MY_Model extends CI_Model
 
 	public function make_datatables()
 	{  
-	   $this->make_query();  
+	   $this->make_query();
+
 	   if($this->input->get("length") != -1)  
 	   {  
 	        $this->db->limit($this->input->get('length'), $this->input->get('start'));
-	   }  
+	   }
+
 	   $query = $this->db->get();
+
 	   return $query->result();
-	}  
+	}
 
 	public function get_filtered_data(){  
 	   $this->make_query();  
-	   $query = $this->db->get();  
+	   $query = $this->db->get();
 
 	   return $query->num_rows();
 	}
 
 	public function datatable()
 	{
-		$i = 0;
-
-        foreach ($this->search_column as $item) 
-        {
-            if($this->input->get('search')['value']) 
-            {
-                if($i===0) 
-                {
-                    $this->db->group_start(); 
-                    $this->db->like($item, $this->input->get('search')['value']);
-                }
-                else
-                {
-                    $this->db->or_like($item, $this->input->get('search')['value']);
-                }
- 
-                if(count($this->search_column) - 1 == $i) 
-                    $this->db->group_end(); 
-            }
-            $i++;
-        }
+		if (isset($this->search_column)) {
+			$i = 0;
+	
+			foreach ($this->search_column as $item) 
+			{
+				if($this->input->get('search')['value']) 
+				{
+					if($i===0) 
+					{
+						$this->db->group_start(); 
+						$this->db->like($item, $this->input->get('search')['value']);
+					}
+					else
+					{
+						$this->db->or_like($item, $this->input->get('search')['value']);
+					}
+	 
+					if(count($this->search_column) - 1 == $i) 
+						$this->db->group_end(); 
+				}
+				$i++;
+			}
+		}
          
         if($this->input->get('order'))
         {
