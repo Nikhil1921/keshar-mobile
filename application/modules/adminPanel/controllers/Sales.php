@@ -40,8 +40,19 @@ class Sales extends Admin_controller  {
             $sub_array[] = $row->sell_price;
             $sub_array[] = $row->imei;
             $sub_array[] = date('d-m-Y', strtotime($row->create_date));
-            $sub_array[] = $row->m_name;
+            $sub_array[] = $row->model;
             $sub_array[] = $row->b_name;
+            
+            $action = '<div class="btn-group" role="group"><button class="btn btn-success dropdown-toggle"
+                    id="btnGroupVerticalDrop1" type="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <span class="fa fa-cogs"></span></button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupVerticalDrop1" x-placement="bottom-start">';
+            $action .= anchor($this->redirect."/invoice/".e_id($row->id), '<i class="fa fa-print"></i> Invoice</a>', 'class="dropdown-item"');
+            $action .= anchor($this->redirect."/profit/".e_id($row->id), '<i class="fa fa-eye"></i> View</a>', 'class="dropdown-item"');
+            $action .= '</div></div>';
+            
+            $sub_array[] = $action;
 
             $data[] = $sub_array;
             $sr++;

@@ -32,6 +32,7 @@
             <th>Date</th>
             <th>Model Name</th>
             <th>Brand Name</th>
+            <th class="target">Action</th>
           </tr>
         </thead>
         <tbody>

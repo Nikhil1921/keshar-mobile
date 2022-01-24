@@ -10,10 +10,13 @@
         <div class="col-md-4">
           <div class="form-group">
             <?= form_label('Brand Name', 'brand_id') ?>
-            <select name="brand_id" id="brand_id" class="form-control select-model" data-value="<?= set_value('model_id') ? set_value('model_id') : (isset($data['model_id']) ? e_id($data['model_id']) : '') ?>" required>
+            <select name="brand_id" class="form-control">
               <option value="" selected disabled>Select Brand</option>
-              <?php foreach($brands as $brand): ?>
-                <option value="<?= e_id($brand['id']) ?>" <?= set_value('brand_id') ? set_select('brand_id', e_id($brand['id'])) : (isset($data['brand_id']) && $brand['id'] == $data['brand_id'] ? 'selected' : '') ?>><?= $brand['b_name'] ?></option>
+              <?php foreach ($brands as $brand): ?>
+                <option value="<?= e_id($brand['id']) ?>"
+                  <?= set_value('brand_id') ? set_select('brand_id', e_id($brand['id'])) : ((isset($data['brand']) && $data['brand'] == $brand['id']) ? 'selected' : '') ?>
+                  ><?= $brand['b_name'] ?>
+                </option>
               <?php endforeach ?>
             </select>
             <?= form_error('brand_id') ?>
@@ -22,8 +25,14 @@
         <div class="col-md-4">
           <div class="form-group">
             <?= form_label('Model Name', 'model_id') ?>
-            <select name="model_id" id="model_id" class="form-control" required>
-            </select>
+            <?= form_input([
+                'class' => "form-control",
+                'id' => "model_id",
+                'name' => "model_id",
+                'maxlength' => 100,
+                'required' => "",
+                'value' => set_value('model_id') ? set_value('model_id') : (isset($data['model']) ? $data['model'] : '')
+            ]); ?>
             <?= form_error('model_id') ?>
           </div>
         </div>

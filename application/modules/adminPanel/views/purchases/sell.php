@@ -10,18 +10,27 @@
         <div class="col-md-3">
           <div class="form-group">
             <?= form_label('Brand Name', 'brand_id') ?>
-            <select name="brand_id" id="brand_id" class="form-control select-model" data-value="<?= set_value('model_id') ? set_value('model_id') : (isset($data['model_id']) ? e_id($data['model_id']) : '') ?>" disabled>
-              <?php foreach($brands as $brand): ?>
-                <option value="<?= e_id($brand['id']) ?>" <?= set_value('brand_id') ? set_select('brand_id', e_id($brand['id'])) : (isset($data['brand_id']) && $brand['id'] == $data['brand_id'] ? 'selected' : '') ?>><?= $brand['b_name'] ?></option>
-              <?php endforeach ?>
-            </select>
+            <?= form_input([
+                'class' => "form-control",
+                'id' => "brand",
+                'name' => "brand",
+                'maxlength' => 50,
+                'disabled' => "",
+                'value' => $data['brand']
+            ]); ?>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <?= form_label('Model Name', 'model_id') ?>
-            <select name="model_id" id="model_id" class="form-control" disabled>
-            </select>
+            <?= form_input([
+                'class' => "form-control",
+                'id' => "model",
+                'name' => "model",
+                'maxlength' => 50,
+                'disabled' => "",
+                'value' => $data['model']
+            ]); ?>
             <?= form_error('model_id') ?>
           </div>
         </div>

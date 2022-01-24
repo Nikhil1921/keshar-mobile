@@ -8,9 +8,7 @@ class Purchases_model extends MY_Model
 	public $table = "purchases p";
 	public $imei = 'imeis';
 	public $selling = 'sellings';
-	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name', 'p.sell_status'];
-	public $search_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name'];
-    public $order_column = [null, 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name', null];
+	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name', 'p.sell_status', 'b.id brand_id'];
 	public $order = ['p.id' => 'DESC'];
 
 	public function make_query()
@@ -29,26 +27,13 @@ class Purchases_model extends MY_Model
         $this->datatable();
 	}
 
-	public function count()
-	{
-		$this->db->select('p.id')
-		         ->from($this->table)
-				 ->where(['p.is_deleted' => 0])
-                 ->join("$this->imei i", 'i.id = p.imei_id')
-                 ->join("brands b", 'b.id = i.brand');
-		
-        $this->db->where(['p.sell_status' => $this->input->get('status')]);
-
-		return $this->db->get()->num_rows();
-	}
-
-	public function purchase($table, $p_id=null)
+	public function purchase($table, $p_id, $api)
 	{
         $this->db->trans_start();
 
         $imei = [
-            'brand' => d_id($this->input->post('brand_id')),
-            'model' => $this->input->post('model_id'),
+            'brand' => $this->input->post('brand_id'),
+            'model' => $this->input->post('model'),
             'imei'  => $this->input->post('imei'),
         ];
         
@@ -64,17 +49,17 @@ class Purchases_model extends MY_Model
             'mobile'         => $this->input->post('mobile'),
             'price'          => $this->input->post('price'),
             'create_date'    => $this->input->post('op_date'),
-            'create_by'      => $this->session->auth,
+            'create_by'      => $api,
             'sell_status'    => 0,
             'imei_id'        => $imei_id
         ];
 
-        if ($p_id == null) {
+        if ($p_id == 0) {
             for ($i=0; $i < 5; $i++) $imgs[$i]['image'] = '';
             $purchase['documents'] = json_encode($imgs);
         }
         
-        if ($p_id != null) {
+        if ($p_id != 0) {
             $this->db->where('id', $p_id)->update($table, $purchase);
         }else{
             $this->db->insert($table, $purchase);
@@ -84,12 +69,12 @@ class Purchases_model extends MY_Model
         $this->db->trans_complete();
         
 		if ($this->db->trans_status() == true)
-            return e_id($p_id);
+            return "$p_id";
         else
             return false;
 	}
 
-    public function sell($table, $p_id)
+    public function sell($table, $p_id, $api)
 	{
         $this->db->trans_start();
         
@@ -99,7 +84,7 @@ class Purchases_model extends MY_Model
             'mobile'         => $this->input->post('mobile'),
             'sell_price'     => $this->input->post('price'),
             'create_date'    => $this->input->post('op_date'),
-            'create_by'      => $this->session->auth
+            'create_by'      => $api
         ];
         
         if ($this->check($this->selling, ['id' => $p_id], 'id'))
@@ -112,7 +97,7 @@ class Purchases_model extends MY_Model
         $this->db->trans_complete();
         
 		if ($this->db->trans_status() == true)
-            return e_id($p_id);
+            return $p_id;
         else
             return false;
 	}

@@ -55,9 +55,9 @@
               <li class="nav-item">
                 <?= anchor(admin('brands'), 'Brands', 'class="nav-link '.(($name == 'brands') ? 'active' : '').'"') ?>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <?= anchor(admin('models'), 'Models', 'class="nav-link '.(($name == 'models') ? 'active' : '').'"') ?>
-              </li>
+              </li> -->
             </ul>
           </div>
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">

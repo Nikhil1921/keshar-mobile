@@ -14,36 +14,37 @@ class Admin_controller extends MY_Controller
         $this->user = (object) $this->main->get("logins", 'name, mobile, email', ['id' => $this->session->auth]);
 		$this->redirect = admin($this->redirect);
 	}
-
-	protected function uploadImage($upload)
+    
+    public function invoice(int $id)
     {
-        $this->load->library('upload');
-        $config = [
-                'upload_path'      => $this->path,
-                'allowed_types'    => 'jpg|jpeg|png|pdf',
-                'file_name'        => time(),
-                'file_ext_tolower' => TRUE
-            ];
-        
-        $this->upload->initialize($config);
-        if ($this->upload->do_upload($upload)){
-            $img = $this->upload->data("file_name");
-            $name = $this->upload->data("raw_name");
+        $purchase = $this->main->get('purchases', 'id, price, sell_status, imei_id', ['id' => d_id($id)]);
+        if ($purchase) {
+            $data['name'] = $this->name;
+            $data['title'] = "Delivery Challan";
+            $data['url'] = $this->redirect;
+            $imei = $this->main->get("imeis", 'brand, model, imei', ['id' => $purchase['imei_id']]);
+            $sell = $this->main->get("sellings", 'cust_name, mobile, sell_price, create_date', ['id' => d_id($id)]);
+            if ($imei)
+                $imei['brand'] = $this->main->check("brands", ['id' => $imei['brand']], 'b_name');
+            $data['data'] = array_merge($purchase, $imei);
             
-            if (in_array($this->upload->data('file_ext'), ['.jpg', '.jpeg']))
-                $image = imagecreatefromjpeg($this->path.$img);
-            if ($this->upload->data('file_ext') == '.png')
-                $image = imagecreatefrompng($this->path.$img);
-
-            if (isset($image)){
-                convert_webp($this->path, $image, $name);
-                unlink($this->path.$img);
-                $img = "$name.webp";
-            }
-            
-            return ['error' => false, 'message' => $img];
-        }else
-            return ['error' => true, 'message' => $this->upload->display_errors()];
+            if ($sell) $data['data'] = array_merge($data['data'], $sell);
+            require 'vendor/autoload.php';
+            $mpdf = new \Mpdf\Mpdf();
+            $curl_handle = curl_init();
+            curl_setopt($curl_handle,CURLOPT_URL, base_url('assets/dist/css/print.css'));
+            curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+            curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+            $stylesheet = curl_exec($curl_handle);
+            curl_close($curl_handle);
+            $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
+            $mpdf->WriteHTML($this->load->view('sales/invoice_pdf', $data, true), \Mpdf\HTMLParserMode::HTML_BODY);
+            $mpdf->Output();
+            /* $mpdf->Output("uploads/$id.pdf", "F"); */
+            /* return $this->template->load('template', 'sales/invoice', $data); */
+        }else{
+            return $this->error_404();
+        }
     }
 
     public function get_model_list()
@@ -54,5 +55,21 @@ class Admin_controller extends MY_Controller
         }, $this->main->getall("models", 'id, m_name', ['is_deleted' => 0, 'brand_id' => d_id($this->input->get('brand_id'))]));
         
         die(json_encode($return));
+    }
+
+    public function profit(int $id)
+    {
+        $this->load->model('sales_model');
+        $data['data'] = $this->sales_model->profit(d_id($id));
+        
+        if ($data['data']) {
+            $data['name'] = $this->name;
+            $data['title'] = "Profit";
+            $data['url'] = $this->redirect;
+        
+            return $this->template->load('template', 'sales/profit', $data);
+        }else{
+            return $this->error_404();
+        }
     }
 }

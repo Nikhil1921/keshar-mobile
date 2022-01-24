@@ -12,8 +12,8 @@ class Home extends Admin_controller  {
         $data['url'] = $this->redirect;
         $this->load->model('brands_model');
         $data['brands'] = $this->brands_model->count();
-        $this->load->model('models_model');
-        $data['models'] = $this->models_model->count();
+        // $this->load->model('models_model');
+        // $data['models'] = $this->models_model->count();
         $data['purchases'] = $this->main->count_all('purchases', ['is_deleted' => 0]);
         $data['sells'] = $this->main->count_all('sellings', ['is_deleted' => 0]);
         $data['sell_price'] = $this->main->sell_price();
