@@ -38,7 +38,7 @@ class Purchases extends MY_Controller {
         $this->load->model('purchases_model');
         
         if ($insert = $this->purchases_model->purchase($this->table, $id, $api)) {
-            $response['row']['id'] = $insert;
+            $response['row'] = $insert;
             $response['error'] = false;
             $response['message'] = "$this->title ".($id ? 'update' : 'add')." success";
         }else{
@@ -124,4 +124,21 @@ class Purchases extends MY_Controller {
 
         echoRespnse(200, $response);
 	}
+
+    public function profit(int $id)
+    {
+        get();
+        $this->load->model('sales_model');
+        
+        if ($row = $this->sales_model->profit($id)) {
+            $response['row'] = $row;
+            $response['error'] = false;
+            $response['message'] = "$this->title delete success";
+        }else{
+            $response['error'] = true;
+            $response['message'] = "$this->title delete not success";
+        }
+
+        echoRespnse(200, $response);
+    }
 }

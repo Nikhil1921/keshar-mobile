@@ -8,7 +8,7 @@ class Purchases_model extends MY_Model
 	public $table = "purchases p";
 	public $imei = 'imeis';
 	public $selling = 'sellings';
-	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name', 'p.sell_status', 'b.id brand_id'];
+	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'p.model', 'b.b_name', 'p.sell_status', 'b.id brand_id'];
 	public $order = ['p.id' => 'DESC'];
 
 	public function make_query()
@@ -17,7 +17,7 @@ class Purchases_model extends MY_Model
             	 ->from($this->table)
 				 ->where(['p.is_deleted' => 0])
                  ->join("$this->imei i", 'i.id = p.imei_id')
-                 ->join("brands b", 'b.id = i.brand');
+                 ->join("brands b", 'b.id = p.brand');
         
         $this->db->where(['p.sell_status' => $this->input->get('status')]);
         
@@ -32,12 +32,10 @@ class Purchases_model extends MY_Model
         $this->db->trans_start();
 
         $imei = [
-            'brand' => $this->input->post('brand_id'),
-            'model' => $this->input->post('model'),
             'imei'  => $this->input->post('imei'),
         ];
         
-        $imei_id = $this->check($this->imei, $imei, 'id');
+        $imei_id = $this->check($this->imei, ['imei' => $imei['imei']], 'id');
 
         if (!$imei_id){
             $this->db->insert($this->imei, $imei);
@@ -46,6 +44,8 @@ class Purchases_model extends MY_Model
 
         $purchase = [
             'cust_name'      => $this->input->post('cust_name'),
+            'brand'          => $this->input->post('brand_id'),
+            'model'          => $this->input->post('model'),
             'mobile'         => $this->input->post('mobile'),
             'price'          => $this->input->post('price'),
             'create_date'    => $this->input->post('op_date'),
@@ -68,8 +68,10 @@ class Purchases_model extends MY_Model
 
         $this->db->trans_complete();
         
+        $repeat = $this->db->get_where($table, ['imei_id' => $imei_id])->num_rows() - 1;
+
 		if ($this->db->trans_status() == true)
-            return "$p_id";
+            return ['id' => "$p_id", 'repeats' => "$repeat"];
         else
             return false;
 	}

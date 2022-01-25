@@ -68,3 +68,156 @@
     font-size: 11px;
     padding-top: 8px
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bill_heading{
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+
+.header_logo{
+    float: left;
+    width: 100%;
+}
+
+.content_main{
+    float: left;
+    width: 100%;
+    margin: auto;
+}
+
+.bill_content{
+    float: left;
+    width: 30%;
+    font-size: 14px;
+}
+
+.bill_content1{
+    float: left;
+    width: 29%;
+    font-size: 14px;
+}
+
+.bill_content2{
+    float: left;
+    width: 41%;
+    font-size: 14px;
+}
+
+
+
+.tbl{
+    float: left;
+    width: 100%;
+}
+
+.tbl_main{
+    float: left;
+    width: 100%;
+}
+
+.tbl_content_row{
+    float: left;
+    width: 15%;
+}
+
+.tbl_content_row1{
+    float: left;
+    width: 30%;
+}
+
+.tbl_content_row2{
+    float: left;
+    width: 10%;
+}
+
+.tbl_content_row3{
+    float: left;
+    width: 15%;
+}
+
+.tbl_content_row4{
+    float: left;
+    width: 10%;
+}
+
+.tbl_content_row5{
+    float: left;
+    width: 20%;
+}
+
+.border_line{
+    border-bottom:1px solid black;
+    width: 100%;    
+    margin:auto;
+}
+
+.tbl_content_row_{
+    float: left;
+    width: 80%;
+}
+
+.tbl_content_row1_{
+    float: left;
+    width: 20%;
+}
+
+.bill_footer{
+    float: left;
+    width: 100%;
+}
+
+.left{
+    float: left;
+    width: 50%;
+}
+
+.right{
+    float: left;
+    width: 50%;
+}
+
+.ftr_line{
+    border-bottom: 1px solid black;
+    width: 100%;
+    margin: auto; 
+}
+
+.main_ftr_content{
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid
+}
+
+.ftr_con_left{
+    float: left;
+    width: 60%;
+}
+
+.ftr_con_right{
+    float: left;
+    width: 40%;
+}
+
+.fnt_sz{
+    font-size: 16px !important;
+}
+
+.frt_sz{
+    font-size: 12px !important;
+}

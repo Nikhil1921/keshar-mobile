@@ -17,15 +17,14 @@ class Admin_controller extends MY_Controller
     
     public function invoice(int $id)
     {
-        $purchase = $this->main->get('purchases', 'id, price, sell_status, imei_id', ['id' => d_id($id)]);
+        $purchase = $this->main->get('purchases', 'brand, model, id, price, sell_status, imei_id', ['id' => d_id($id)]);
         if ($purchase) {
             $data['name'] = $this->name;
             $data['title'] = "Delivery Challan";
             $data['url'] = $this->redirect;
-            $imei = $this->main->get("imeis", 'brand, model, imei', ['id' => $purchase['imei_id']]);
+            $imei = $this->main->get("imeis", 'imei', ['id' => $purchase['imei_id']]);
             $sell = $this->main->get("sellings", 'cust_name, mobile, sell_price, create_date', ['id' => d_id($id)]);
-            if ($imei)
-                $imei['brand'] = $this->main->check("brands", ['id' => $imei['brand']], 'b_name');
+            $purchase['brand'] = $this->main->check("brands", ['id' => $purchase['brand']], 'b_name');
             $data['data'] = array_merge($purchase, $imei);
             
             if ($sell) $data['data'] = array_merge($data['data'], $sell);
@@ -40,7 +39,7 @@ class Admin_controller extends MY_Controller
             $mpdf->WriteHTML($stylesheet, \Mpdf\HTMLParserMode::HEADER_CSS);
             $mpdf->WriteHTML($this->load->view('sales/invoice_pdf', $data, true), \Mpdf\HTMLParserMode::HTML_BODY);
             $mpdf->Output();
-            /* $mpdf->Output("uploads/$id.pdf", "F"); */
+            /* $mpdf->Output("uploads/invoice/$id.pdf", "F"); */
             /* return $this->template->load('template', 'sales/invoice', $data); */
         }else{
             return $this->error_404();

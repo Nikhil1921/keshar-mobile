@@ -79,10 +79,6 @@
                         <div class="col-12">
                             <a href="<?= base_url($url) ?>" class="btn btn-outline-danger float-right col-sm-2"> Go Back
                             </a>
-                            <button type="button" onclick="window.print()" class="btn btn-default col-sm-2 float-right"
-                                style="margin-right: 5px;">
-                                <i class="fas fa-print"></i> Print
-                            </button>
                         </div>
                     </div>
                 </div>

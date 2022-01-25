@@ -115,10 +115,10 @@ class Purchases extends Admin_controller  {
             $data['operation'] = "Update";
             $data['url'] = $this->redirect;
             $data['brands'] = $this->main->getall('brands', 'id, b_name', ['is_deleted' => 0]);
-            $purchase = $this->main->get($this->table, 'cust_name, mobile, price, create_date, create_by, sell_status, imei_id', ['id' => d_id($id)]);
+            $purchase = $this->main->get($this->table, 'cust_name, mobile, price, create_date, brand, model, create_by, sell_status, imei_id', ['id' => d_id($id)]);
 
             if ($purchase) {
-                $imei = $this->main->get("imeis", 'brand, model, imei', ['id' => $purchase['imei_id']]);
+                $imei = $this->main->get("imeis", 'imei', ['id' => $purchase['imei_id']]);
                 $data['data'] = array_merge($purchase, $imei);
                 return $this->template->load('template', "$this->redirect/form", $data);
             }else{
@@ -144,12 +144,12 @@ class Purchases extends Admin_controller  {
             $data['name'] = $this->name;
             $data['operation'] = "Sell";
             $data['url'] = $this->redirect;
-            $purchase = $this->main->get($this->table, 'price, sell_status, imei_id', ['id' => d_id($id)]);
+            $purchase = $this->main->get($this->table, 'brand, model, price, sell_status, imei_id', ['id' => d_id($id)]);
             if ($purchase) {
-                $imei = $this->main->get("imeis", 'brand, model, imei', ['id' => $purchase['imei_id']]);
+                $imei = $this->main->get("imeis", 'imei', ['id' => $purchase['imei_id']]);
                 $sell = $this->main->get("sellings", 'cust_name, mobile, sell_price, create_date', ['id' => d_id($id)]);
-                if ($imei)
-                    $imei['brand'] = $this->main->check("brands", ['id' => $imei['brand']], 'b_name');
+                if ($purchase)
+                    $purchase['brand'] = $this->main->check("brands", ['id' => $purchase['brand']], 'b_name');
                 
 
                 $data['data'] = array_merge($purchase, $imei);

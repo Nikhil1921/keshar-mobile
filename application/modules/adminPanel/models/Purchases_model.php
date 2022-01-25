@@ -8,9 +8,9 @@ class Purchases_model extends MY_Model
 	public $table = "purchases p";
 	public $imei = 'imeis';
 	public $selling = 'sellings';
-	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name', 'p.sell_status'];
-	public $search_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name'];
-    public $order_column = [null, 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'i.model', 'b.b_name', null];
+	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'p.model', 'b.b_name', 'p.sell_status'];
+	public $search_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'p.model', 'b.b_name'];
+    public $order_column = [null, 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'p.model', 'b.b_name', null];
 	public $order = ['p.id' => 'DESC'];
 
 	public function make_query()
@@ -19,7 +19,7 @@ class Purchases_model extends MY_Model
             	 ->from($this->table)
 				 ->where(['p.is_deleted' => 0])
                  ->join("$this->imei i", 'i.id = p.imei_id')
-                 ->join("brands b", 'b.id = i.brand');
+                 ->join("brands b", 'b.id = p.brand');
         
         $this->db->where(['p.sell_status' => $this->input->get('status')]);
         
@@ -35,7 +35,7 @@ class Purchases_model extends MY_Model
 		         ->from($this->table)
 				 ->where(['p.is_deleted' => 0])
                  ->join("$this->imei i", 'i.id = p.imei_id')
-                 ->join("brands b", 'b.id = i.brand');
+                 ->join("brands b", 'b.id = p.brand');
 		
         $this->db->where(['p.sell_status' => $this->input->get('status')]);
 
@@ -47,8 +47,6 @@ class Purchases_model extends MY_Model
         $this->db->trans_start();
 
         $imei = [
-            'brand' => d_id($this->input->post('brand_id')),
-            'model' => $this->input->post('model_id'),
             'imei'  => $this->input->post('imei'),
         ];
         
@@ -61,6 +59,8 @@ class Purchases_model extends MY_Model
 
         $purchase = [
             'cust_name'      => $this->input->post('cust_name'),
+            'brand'          => d_id($this->input->post('brand_id')),
+            'model'          => $this->input->post('model_id'),
             'mobile'         => $this->input->post('mobile'),
             'price'          => $this->input->post('price'),
             'create_date'    => $this->input->post('op_date'),
