@@ -121,10 +121,11 @@ class Brands extends Admin_controller  {
         [
             'field' => 'b_name',
             'label' => 'Brand Name',
-            'rules' => 'required|max_length[50]',
+            'rules' => 'required|max_length[50]|alpha',
             'errors' => [
                 'required' => "%s is required",
                 'max_length' => "Max 50 chars allowed.",
+                'alpha' => "%s is invalid.",
             ],
         ]
     ];

@@ -66,7 +66,7 @@
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <?= form_label('Customer Mobile', 'mobile') ?>
+            <?= form_label('Customer Mobile No.', 'mobile') ?>
             <?= form_input([
                 'class' => "form-control",
                 'id' => "mobile",

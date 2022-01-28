@@ -21,7 +21,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <?= form_button([ 'content' => 'Sign in',
+        <?= form_button([ 'content' => 'Send OTP',
         'type'    => 'submit',
         'class'   => 'btn btn-primary btn-block']) ?>
       </div>

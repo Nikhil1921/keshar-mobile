@@ -6,7 +6,7 @@
 class Sales_model extends MY_Model
 {
 	public $table = "sellings s";
-	public $select_column = ['s.id', 's.cust_name', 's.mobile', 's.sell_price', 'i.imei', 's.create_date', 'p.model', 'b.b_name', 'p.sell_status'];
+	public $select_column = ['s.id', 's.cust_name', 's.mobile', 's.sell_price', 'i.imei', 's.create_date', 'p.model', 'b.b_name', 'p.sell_status', '(s.sell_price - p.price)profit'];
 	public $search_column = ['s.id', 's.cust_name', 's.mobile', 's.sell_price', 'i.imei', 's.create_date', 'p.model', 'b.b_name'];
     public $order_column = [null, 's.cust_name', 's.mobile', 's.sell_price', 'i.imei', 's.create_date', 'p.model', 'b.b_name', null];
 	public $order = ['s.id' => 'DESC'];

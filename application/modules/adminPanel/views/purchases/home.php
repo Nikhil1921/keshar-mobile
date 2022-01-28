@@ -34,10 +34,10 @@
         <thead>
           <tr>
             <th class="target">Sr. No.</th>
-            <th>Customer Name</th>
-            <th>Customer Mobile</th>
+            <th>Name</th>
+            <th>Mobile No.</th>
             <th>Price</th>
-            <th>IMEI</th>
+            <th>IMEI No.</th>
             <th>Date</th>
             <th>Model Name</th>
             <th>Brand Name</th>
@@ -46,6 +46,19 @@
         </thead>
         <tbody>
         </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>

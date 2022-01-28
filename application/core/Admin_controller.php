@@ -56,14 +56,14 @@ class Admin_controller extends MY_Controller
         die(json_encode($return));
     }
 
-    public function profit(int $id)
+    public function profit_view(int $id)
     {
         $this->load->model('sales_model');
         $data['data'] = $this->sales_model->profit(d_id($id));
         
         if ($data['data']) {
             $data['name'] = $this->name;
-            $data['title'] = "Profit";
+            $data['title'] = "Profit view";
             $data['url'] = $this->redirect;
         
             return $this->template->load('template', 'sales/profit', $data);

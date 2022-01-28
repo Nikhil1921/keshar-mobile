@@ -13,7 +13,7 @@
          Unjha
       </div>
       <div class="bill_content1">
-         Buyer (Bill to)<br><b><?= $data['cust_name'] ?></b><br>Phone : <?= $data['mobile'] ?>
+         Buyer (Bill to)<br><b><?= $data['cust_name'] ?></b><br>Phone  No.: <?= $data['mobile'] ?>
       </div>
       <div class="bill_content2">
          <b>Invoice No. : #

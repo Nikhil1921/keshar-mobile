@@ -31,7 +31,7 @@
                                 <strong><?= $data['buyer'] ?></strong>
                                 <br>
                                 <div class="row">
-                                    <span class="col-sm-12">Phone : <?= $data['b_mobile'] ?></span>
+                                    <span class="col-sm-12">Phone No.: <?= $data['b_mobile'] ?></span>
                                     <span class="col-sm-12">Date : <?= date('d-m-Y', strtotime($data['sell_date'])) ?></span>
                                 </div>
                             </address>
@@ -42,7 +42,7 @@
                                 <strong><?= $data['seller'] ?></strong>
                                 <br>
                                 <div class="row">
-                                    <span class="col-sm-12">Phone : <?= $data['s_mobile'] ?></span>
+                                    <span class="col-sm-12">Phone No.: <?= $data['s_mobile'] ?></span>
                                     <span class="col-sm-12">Date : <?= date('d-m-Y', strtotime($data['b_date'])) ?></span>
                                 </div>
                             </address>

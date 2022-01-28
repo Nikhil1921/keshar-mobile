@@ -3,9 +3,42 @@
 		setTimeout(function(){ $(".alert-messages").remove(); }, 3000);
 		<?php if (isset($dataTables)): ?>
       	var table = $('.datatable').DataTable({
+            dom: 'Bfrtip',
             lengthMenu: [
                 [ 10, 25, 50, 100, -1 ],
                 [ '10', '25', '50', '100', 'All' ]
+            ],
+            buttons: [
+                'pageLength',
+                {
+                    extend: 'print',
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                },
+                {
+                    extend: 'pdf',
+                    pageSize: 'A4',
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                },
+                {
+                    extend: 'copy',
+                    footer: true,
+                    exportOptions: {
+                        columns: ':visible'
+                    },
+                },
+                {
+                    extend: 'excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                'colvis'
             ],
             "processing": true,
             "serverSide": true,
@@ -32,7 +65,49 @@
             "columnDefs": [{
                 "targets": 'target',
                 "orderable": false,
-            },]
+            },],
+            "footerCallback": function ( row, data, start, end, display ) {
+                if ("<?= $name ?>" == 'sales' || "<?= $name ?>" == 'purchases') {
+                    var api = this.api(), data;
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+                    
+                    if ("<?= $name ?>" == 'sales' || "<?= $name ?>" == 'purchases') {
+                        // Total over this page
+                        totalPrice = api
+                            .column( 3, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+            
+                        // Update footer
+                        $( api.column( 3 ).footer() ).html(
+                            '₹'+(totalPrice).toFixed(0)
+                        );
+                    }
+
+                    if ("<?= $name ?>" == 'sales') {
+                        // Total over this page
+                        totalPrice = api
+                            .column( 8, { page: 'current'} )
+                            .data()
+                            .reduce( function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0 );
+            
+                        // Update footer
+                        $( api.column( 8 ).footer() ).html(
+                            '₹'+(totalPrice).toFixed(0)
+                        );
+                    }
+                }
+            }
         });
 
         $('.status').click(function(){

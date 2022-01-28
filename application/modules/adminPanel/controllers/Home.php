@@ -45,7 +45,7 @@ class Home extends Admin_controller  {
 
             $id = $this->main->update(['id' => $this->session->auth], $post, $this->table);
 
-            flashMsg($id, "Profile updated.", "Profile not updated. Try again.", $this->redirect."profile");
+            flashMsg($id, "Profile updated.", "Profile not updated. Try again.", $this->redirect);
         }
     }
 
@@ -105,7 +105,7 @@ class Home extends Admin_controller  {
         ],
         [
             'field' => 'mobile',
-            'label' => 'Mobile',
+            'label' => 'Mobile No.',
             'rules' => 'required|numeric|exact_length[10]|callback_mobile_check',
             'errors' => [
                 'required' => "%s is required",
@@ -115,7 +115,7 @@ class Home extends Admin_controller  {
         ],
         [
             'field' => 'email',
-            'label' => 'Email',
+            'label' => 'Email Address',
             'rules' => 'max_length[50]|callback_email_check',
             'errors' => [
                 'numeric' => "%s is invalid",

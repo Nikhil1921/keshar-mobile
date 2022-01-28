@@ -16,7 +16,7 @@ class Login extends MY_Controller
     protected $login = [
         [
             'field' => 'mobile',
-            'label' => 'Mobile',
+            'label' => 'Mobile No.',
             'rules' => 'required|numeric|exact_length[10]',
             'errors' => [
                 'required' => "%s is required",
@@ -91,19 +91,20 @@ class Login extends MY_Controller
     			'update_at >= ' => date('Y-m-d H:i:s')
     		];
 
-    		if ($user = $this->main->get($this->table, 'id', $post)) {
+    		if ($user = $this->main->get($this->table, 'id, name', $post)) {
                 
                 $update = ['otp' => 0];
 
                 if ($this->main->update(['id' => $user['id']], $update, $this->table) === true) {
-                    $this->session->set_userdata('auth', $this->session->login_id);    
+                    $this->session->set_userdata('auth', $this->session->login_id);
+                    $this->session->set_flashdata('success', 'Welcome '.$user['name']);
                     return redirect(admin());
                 }else{
                     $this->session->set_flashdata('error', 'Some error occurs. Try again.');
     			    return redirect(admin('check-otp'));
                 }
     		}else{
-    			$this->session->set_flashdata('error', 'OTP expired or Invalid OTP.');
+    			$this->session->set_flashdata('error', 'Invalid OTP.');
     			return redirect(admin('check-otp'));
     		}
         }

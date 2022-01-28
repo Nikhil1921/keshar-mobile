@@ -44,9 +44,16 @@
             <?= form_error('email') ?>
           </li>
         </ul>
-        <?= form_button([ 'content' => '<b>Update Profile</b>',
-        'type'  => 'submit',
-        'class' => 'btn btn-outline-primary btn-block']) ?>
+        <div class="row">
+              <div class="col-md-6">
+              <?= form_button([ 'content' => 'Update Profile',
+              'type'  => 'submit',
+              'class' => 'btn btn-outline-primary col-md-12']) ?>
+              </div>
+              <div class="col-md-6">
+              <?= anchor($url, 'Cancel', 'class="btn btn-outline-danger col-md-12"'); ?>
+              </div>
+          </div>
         <?= form_close() ?>
       </div>
     </div>

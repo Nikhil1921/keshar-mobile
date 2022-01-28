@@ -64,13 +64,7 @@
               <li class="nav-item dropdown">
                 <a href="javascript:;" class="nav-link" data-toggle="dropdown" aria-expanded="false"><i class="far fa-user"></i></a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                  <span class="dropdown-header"><?= anchor(admin('profile'), 'Account Details', 'class="dropdown-item"') ?></span>
-                  <div class="dropdown-divider"></div>
-                  <?= anchor(admin('profile'), '<i class="fa fa-user mr-2"></i>'.ucwords($this->user->name), 'class="dropdown-item"') ?>
-                  <div class="dropdown-divider"></div>
-                  <?= anchor(admin('profile'), '<i class="fa fa-envelope mr-2"></i>'.$this->user->email, 'class="dropdown-item"') ?>
-                  <div class="dropdown-divider"></div>
-                  <?= anchor(admin('profile'), '<i class="fa fa-phone mr-2"></i>'.$this->user->mobile, 'class="dropdown-item"') ?>
+                  <?= anchor(admin('profile'), 'Update Profile', 'class="dropdown-item dropdown-footer"') ?>
                   <div class="dropdown-divider"></div>
                   <?= anchor(admin('logout'), 'Log Out', 'class="dropdown-item dropdown-footer"') ?>
                 </div>

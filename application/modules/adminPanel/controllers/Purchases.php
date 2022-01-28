@@ -61,8 +61,7 @@ class Purchases extends Admin_controller  {
             else {
                 $action .= anchor($this->redirect."/invoice/".e_id($row->id), '<i class="fa fa-print"></i>
                 Invoice</a>', 'class="dropdown-item"');
-                $action .= anchor($this->redirect."/profit/".e_id($row->id), '<i class="fa fa-eye"></i> View</a>',
-                'class="dropdown-item"');
+                $action .= anchor($this->redirect."/profit-view/".e_id($row->id), '<i class="fa fa-eye"></i> Profit view</a>', 'class="dropdown-item"');
             }
             
             $action .= '</div></div>';

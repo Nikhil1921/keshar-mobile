@@ -24,7 +24,7 @@
                 </div>
               </div>
               <div class="col-md-4">
-                  <?= img(['src' => $path.$doc->image, 'height' => '100']) ?>
+                  <?= img(['src' => $path.$doc->image, 'height' => '80', '', 'width' => '100%']) ?>
               </div>
             </div>
             <?= form_close() ?>
