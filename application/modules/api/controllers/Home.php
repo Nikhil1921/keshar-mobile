@@ -10,6 +10,21 @@ class Home extends MY_Controller  {
 	}
 
 	protected $table = 'logins';
+
+    public function index()
+	{
+        $data['brands'] = $this->main->count_all('brands', ['is_deleted' => 0]);
+        $data['purchases'] = $this->main->count_all('purchases', ['is_deleted' => 0]);
+        $data['sells'] = $this->main->count_all('sellings', ['is_deleted' => 0]);
+        $data['sell_total'] = $this->main->sell_price();
+        $data['purchase_total'] = $this->main->purchase_price();
+        
+        $response['row'] = $data;
+        $response['error'] = false;
+        $response['message'] = "Dashboard success.";
+
+        echoRespnse(200, $response);
+	}
 	
 	public function send_otp()
     {

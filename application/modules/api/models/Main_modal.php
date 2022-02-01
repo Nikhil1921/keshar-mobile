@@ -18,6 +18,7 @@ class Main_modal extends MY_Model
     {
         $total = $this->db->select("SUM(price) total")
                           ->from('purchases')
+                          ->where(['is_deleted' => 0])
                           ->get()
                           ->row_array();
         
