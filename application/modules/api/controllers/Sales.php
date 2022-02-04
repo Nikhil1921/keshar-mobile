@@ -26,8 +26,10 @@ class Sales extends MY_Controller {
         echoRespnse(200, $response);
 	}
 
-    public function invoice(int $id)
+    public function invoice($id)
     {
+        $id = explode('.', $id);
+        $id = reset($id);
         $sell = $this->main->get("sellings", 'cust_name, mobile, sell_price, create_date', ['id' => $id]);
         if ($sell) {
             $purchase = $this->main->get('purchases', 'brand, model, id, price, sell_status, imei_id', ['id' => $id]);    

@@ -13,12 +13,12 @@ class Sales_model extends MY_Model
 	{  
 		$this->db->select($this->select_column)
             	 ->from($this->table)
-				 ->where(['p.is_deleted' => 0])
+				 ->where(['p.is_deleted' => 0, 'p.sell_status' => 1])
                  ->join("purchases p", 'p.id = s.id')
                  ->join("imeis i", 'i.id = p.imei_id')
 				 ->join("brands b", 'b.id = p.brand');
-
-		if ($this->input->get('brand_id')) $this->db->where(['p.brand' => $this->input->get('brand_id')]);
+		
+		if ($this->input->get('brand_id')) $this->db->where_in('p.brand', explode(',', $this->input->get('brand_id')));
 		if ($this->input->get('start_date')) $this->db->where(['s.create_date >= ' => $this->input->get('start_date')]);
         if ($this->input->get('end_date')) $this->db->where(['s.create_date <= ' => $this->input->get('end_date')]);
 		
