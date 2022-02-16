@@ -39,11 +39,11 @@ class Home extends MY_Controller  {
             $this->load->helper('string');
             $update = [
                 'otp'   	 => random_string('numeric', 6),
-                'otp'   	 => 999999,
+                // 'otp'   	 => 999999,
                 'update_at'  => date('Y-m-d H:i:s', strtotime('+5 minutes')),
             ];
             if ($this->main->update(['id' => $user['id']], $update, $this->table) === true) {
-                // send otp here
+                send_sms($post['mobile'], $update['otp']);
                 $response['error'] = false;
                 $response['message'] = "Login success.";
             }else{

@@ -49,12 +49,12 @@ class Login extends MY_Controller
                 $this->load->helper('string');
                 $update = [
                     'otp'   	 => random_string('numeric', 6),
-                    'otp'   	 => 999999,
+                    // 'otp'   	 => 999999,
                     'update_at'  => date('Y-m-d H:i:s', strtotime('+5 minutes')),
                 ];
                 if ($this->main->update(['id' => $user['id']], $update, $this->table) === true) {
                     $this->session->set_flashdata('login_id', $user['id']);
-                    // send_sms(); // pendig because sms panel not available.
+                    send_sms($post['mobile'], $update['otp']);
                     return redirect(admin('check-otp'));
                 }else{
                     $this->session->set_flashdata('error', 'Some error occurs. Try again.');

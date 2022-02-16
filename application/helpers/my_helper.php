@@ -83,3 +83,26 @@ if ( ! function_exists('assets'))
         return base_url("assets/$url");
     }
 }
+
+if ( ! function_exists('send_sms'))
+{
+    function send_sms($receiver, $otp)
+    {   
+        /* if ($_SERVER['HTTP_HOST'] != 'localhost' && ENVIRONMENT === 'production') 
+        { */
+            $from = 'wcserv';
+            $key = '2612F22D485872';
+            $sms = "$otp WCS OTP FOR LOGIN THANKU FOR SINGHUP";
+            $url = "key=".$key."&campaign=12188&routeid=7&type=text&contacts=".$receiver."&senderid=".$from."&msg=".urlencode($sms)."&template_id=1707162797401861012";
+    
+            $base_URL = 'http://denseteklearning.com/app/smsapi/index?'.$url;
+    
+            $curl_handle = curl_init();
+            curl_setopt($curl_handle,CURLOPT_URL,$base_URL);
+            curl_setopt($curl_handle,CURLOPT_CONNECTTIMEOUT,2);
+            curl_setopt($curl_handle,CURLOPT_RETURNTRANSFER,1);
+            $result = curl_exec($curl_handle);
+            curl_close($curl_handle);
+        // }
+    }
+}
