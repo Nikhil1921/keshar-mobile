@@ -17,8 +17,22 @@ class Purchases extends MY_Controller {
         get();
         verifyRequiredParams(["start", "length", "status"]);
 
-        $data = $this->api->make_datatables();
-
+        $data = array_map(function($d){
+                    return [
+                        "id"          => $d->id,
+                        "cust_name"   => $d->cust_name,
+                        "mobile"      => $d->mobile,
+                        "price"       => $d->price,
+                        "imei"        => $d->imei,
+                        "create_date" => $d->create_date,
+                        "model"       => $d->model,
+                        "b_name"      => $d->b_name,
+                        "sell_status" => $d->sell_status,
+                        "brand_id"    => $d->brand_id,
+                        "repeated"    => $this->api->checkRepeat($d->imei_id),
+                    ];
+                },$this->api->make_datatables());
+        
         $response['row'] = $data;
         $response['error'] = false;
         $response['message'] = "$this->title List success";
@@ -51,20 +65,37 @@ class Purchases extends MY_Controller {
 
     public function sell()
 	{
-        post();
-        $api = authenticate('logins');
-        verifyRequiredParams(['cust_name', 'mobile', 'price', 'op_date', 'id']);
-
-        $id = $this->input->post('id');
-
-        $this->load->model('purchases_model');
-
-        if ($this->purchases_model->sell($this->table, $id, $api)) {
-            $response['error'] = false;
-            $response['message'] = "Sell success";
+        if ($this->input->server('REQUEST_METHOD') === "POST") {
+            post();
+            $api = authenticate('logins');
+            verifyRequiredParams(['cust_name', 'mobile', 'price', 'op_date', 'id']);
+    
+            $id = $this->input->post('id');
+    
+            $this->load->model('purchases_model');
+    
+            if ($this->purchases_model->sell($this->table, $id, $api)) {
+                $response['error'] = false;
+                $response['message'] = "Sell success";
+            }else{
+                $response['error'] = true;
+                $response['message'] = "Sell not success";
+            }
         }else{
-            $response['error'] = true;
-            $response['message'] = "Sell not success";
+            $api = authenticate('logins');
+            
+            verifyRequiredParams(['id']);
+            
+            $id = $this->input->get('id');
+
+            if ($row = $this->main->get('sellings', 'cust_name, mobile, sell_price, create_date', ['id' => $id])) {
+                $response['row'] = $row;
+                $response['error'] = false;
+                $response['message'] = "Sell data success";
+            }else{
+                $response['error'] = true;
+                $response['message'] = "Sell data not success";
+            }
         }
 
         echoRespnse(200, $response);

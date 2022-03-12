@@ -8,19 +8,21 @@ class Purchases_model extends MY_Model
 	public $table = "purchases p";
 	public $imei = 'imeis';
 	public $selling = 'sellings';
-	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'p.model', 'b.b_name', 'p.sell_status', 'b.id brand_id'];
+	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'p.model', 'b.b_name', 'p.sell_status', 'b.id brand_id', 'p.imei_id'];
 	public $order = ['p.id' => 'DESC'];
 
 	public function make_query()
-	{  
+	{
 		$this->db->select($this->select_column)
             	 ->from($this->table)
 				 ->where(['p.is_deleted' => 0])
                  ->join("$this->imei i", 'i.id = p.imei_id')
-                 ->join("brands b", 'b.id = p.brand');
+                 ->join("brands b", 'b.id = p.brand')
+                 ->join("$this->selling s", 's.id = p.id', 'left');
         
         $this->db->where(['p.sell_status' => $this->input->get('status')]);
         
+        if ($this->input->get('status') != 0) $this->order = ['s.create_date' => 'DESC'];
         if ($this->input->get('start_date')) $this->db->where(['p.create_date >= ' => $this->input->get('start_date')]);
         if ($this->input->get('end_date')) $this->db->where(['p.create_date <= ' => $this->input->get('end_date')]);
         
@@ -103,4 +105,9 @@ class Purchases_model extends MY_Model
         else
             return false;
 	}
+
+    public function checkRepeat($imei_id)
+    {
+        return (string) $this->db->select('imei_id')->from($this->table)->where('imei_id', $imei_id)->get()->num_rows();
+    }
 }

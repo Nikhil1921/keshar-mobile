@@ -14,10 +14,26 @@ class Sales extends MY_Controller {
 	
 	public function index()
 	{
+        $this->load->model('Purchases_model');
         get();
         verifyRequiredParams(["start", "length"]);
 
-        $data = $this->api->make_datatables();
+        // $data = $this->api->make_datatables();
+        $data = array_map(function($d){
+                    return [
+                        "id" => $d->id,
+                        "cust_name" => $d->cust_name,
+                        "mobile" => $d->mobile,
+                        "sell_price" => $d->sell_price,
+                        "imei" => $d->imei,
+                        "create_date" => $d->create_date,
+                        "model" => $d->model,
+                        "b_name" => $d->b_name,
+                        "sell_status" => $d->sell_status,
+                        "profit" => $d->profit,
+                        "repeated"    => $this->Purchases_model->checkRepeat($d->imei_id),
+                    ];
+                },$this->api->make_datatables());
 
         $response['row'] = $data;
         $response['error'] = false;
