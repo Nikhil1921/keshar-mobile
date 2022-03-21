@@ -30,16 +30,16 @@ switch ($_SERVER['SERVER_NAME']) {
             'save_queries' => TRUE
         );
         break;
-    case 'www.demo.denseteklearning.com':
-    case 'demo.denseteklearning.com':
-    case 'https://www.demo.denseteklearning.com':
-    case 'https://demo.denseteklearning.com':
+    case 'www.densetek.gq':
+    case 'densetek.gq':
+    case 'https://www.densetek.gq':
+    case 'https://densetek.gq':
         $db['default'] = array(
             'dsn'   => '',
             'hostname' => 'localhost',
-            'username' => 'denseeqq_demo',
-            'password' => 'demo@321',
-            'database' => 'denseeqq_keshar_mobile',
+            'username' => 'densehwm_demo',
+            'password' => 'Densetek@2018',
+            'database' => 'densehwm_keshar_mobile',
             'dbdriver' => 'mysqli',
             'dbprefix' => '',
             'pconnect' => (ENVIRONMENT !== 'production'),
