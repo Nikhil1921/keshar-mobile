@@ -126,7 +126,9 @@ class MY_Model extends CI_Model
         else if(isset($this->order))
         {
             $order = $this->order;
-            $this->db->order_by(key($order), $order[key($order)]);
+			foreach ($order as $k => $v)
+				$this->db->order_by($k, $v);
+            // $this->db->order_by(key($order), $order[key($order)]);
         }
 	}
 }

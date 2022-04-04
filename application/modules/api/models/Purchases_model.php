@@ -22,7 +22,7 @@ class Purchases_model extends MY_Model
         
         $this->db->where(['p.sell_status' => $this->input->get('status')]);
         
-        if ($this->input->get('status') != 0) $this->order = ['s.create_date' => 'DESC'];
+        if ($this->input->get('status') != 0) $this->order = ['s.create_date' => 'DESC', 's.created_time' => 'DESC'];
         if ($this->input->get('start_date')) $this->db->where(['p.create_date >= ' => $this->input->get('start_date')]);
         if ($this->input->get('end_date')) $this->db->where(['p.create_date <= ' => $this->input->get('end_date')]);
         
@@ -88,6 +88,7 @@ class Purchases_model extends MY_Model
             'mobile'         => $this->input->post('mobile'),
             'sell_price'     => $this->input->post('price'),
             'create_date'    => $this->input->post('op_date'),
+            'created_time'   => date('H:i:s'),
             'create_by'      => $api
         ];
         

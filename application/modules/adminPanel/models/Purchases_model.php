@@ -99,6 +99,7 @@ class Purchases_model extends MY_Model
             'mobile'         => $this->input->post('mobile'),
             'sell_price'     => $this->input->post('price'),
             'create_date'    => $this->input->post('op_date'),
+            'created_time'   => date('H:i:s'),
             'create_by'      => $this->session->auth
         ];
         
