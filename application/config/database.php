@@ -4,16 +4,16 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 switch ($_SERVER['SERVER_NAME']) {
-    case 'www.keshar_mobile.com':
-    case 'keshar_mobile.com':
-    case 'https://www.keshar_mobile.com':
-    case 'https://keshar_mobile.com':
+    case 'www.advanceagree.in':
+    case 'advanceagree.in':
+    case 'https://www.advanceagree.in':
+    case 'https://advanceagree.in':
         $db['default'] = array(
             'dsn'   => '',
             'hostname' => 'localhost',
-            'username' => 'carefajd_cft',
-            'password' => '(+TF?d.wOluY',
-            'database' => 'carefajd_cft',
+            'username' => 'advancea_agro',
+            'password' => 'advanceagro@aa',
+            'database' => 'advancea_keshar_mobile',
             'dbdriver' => 'mysqli',
             'dbprefix' => '',
             'pconnect' => (ENVIRONMENT !== 'production'),
