@@ -8,12 +8,17 @@ class Purchases_model extends MY_Model
 	public $table = "purchases p";
 	public $imei = 'imeis';
 	public $selling = 'sellings';
-	public $select_column = ['p.id', 'p.cust_name', 'p.mobile', 'p.price', 'i.imei', 'p.create_date', 'p.model', 'b.b_name', 'p.sell_status', 'b.id brand_id', 'p.imei_id'];
+	public $select_column = ['p.id', 'i.imei', 'p.model', 'b.b_name', 'p.sell_status', 'b.id brand_id', 'p.imei_id'];
 	public $order = ['p.id' => 'DESC'];
 
 	public function make_query()
 	{
-		$this->db->select($this->select_column)
+        if ($this->input->get('status') == 0)
+            array_push($this->select_column, 'p.cust_name', 'p.mobile', 'p.price', 'p.create_date');
+        else
+            array_push($this->select_column, 's.cust_name', 's.mobile', 's.sell_price AS price', 's.create_date');
+
+        $this->db->select($this->select_column)
             	 ->from($this->table)
 				 ->where(['p.is_deleted' => 0])
                  ->join("$this->imei i", 'i.id = p.imei_id')
